@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mercury PC — Custom Built Systems</title>
+<script>
+  // Force full width and auto-height inside Google Sites iframe
+  (function() {
+    function sendHeight() {
+      var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      window.parent.postMessage(JSON.stringify({type:'height',value:h}), '*');
+      window.parent.postMessage({type:'height',value:h}, '*');
+    }
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+    setInterval(sendHeight, 800);
+  })();
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Barlow+Condensed:wght@300;600;700&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --panel: #1a1a1a;
+  --accent: #ff4500;
+  --accent2: #ff8c42;
+  --glow: rgba(255,69,0,0.15);
+  --text: #e8e8e8;
+  --muted: #666;
+  --border: #222;
+  --silver: #999;
+}
+
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+  min-width: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Mono', 'Courier New', monospace;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  width: 100%;
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 4px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--silver);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--accent); }
+
+.nav-cta {
+  background: var(--accent);
+  color: #fff !important;
+  padding: 8px 20px;
+  font-weight: 500 !important;
+  transition: background 0.2s !important;
+}
+
+.nav-cta:hover { background: var(--accent2) !important; color: #fff !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 60px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background:
+    radial-gradient(ellipse 70% 60% at 70% 50%, rgba(255,69,0,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,140,66,0.05) 0%, transparent 60%),
+    linear-gradient(160deg, #0a0a0a 0%, #0f0d0a 100%);
+}
+
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,69,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,69,0,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: gridDrift 25s linear infinite;
+}
+
+@keyframes gridDrift {
+  from { transform: translate(0,0); }
+  to   { transform: translate(48px, 48px); }
+}
+
+.hero-orb {
+  position: absolute;
+  right: -100px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,69,0,0.08) 0%, transparent 70%);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.6; }
+  50%       { transform: translateY(-50%) scale(1.08); opacity: 1; }
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 700px; }
+
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: slideUp 0.7s 0.2s forwards;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 15vw, 200px);
+  line-height: 0.85;
+  letter-spacing: -1px;
+  opacity: 0;
+  animation: slideUp 0.7s 0.4s forwards;
+}
+
+.hero h1 .outline {
+  -webkit-text-stroke: 1.5px var(--accent);
+  color: transparent;
+}
+
+.hero-sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--silver);
+  line-height: 1.5;
+  max-width: 480px;
+  margin-top: 28px;
+  opacity: 0;
+  animation: slideUp 0.7s 0.6s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 44px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: slideUp 0.7s 0.8s forwards;
+}
+
+.btn {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-fill {
+  background: var(--accent);
+  color: #fff;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+.btn-fill:hover { background: var(--accent2); transform: translateY(-2px); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  animation: slideUp 0.7s 1s forwards;
+  flex-wrap: wrap;
+}
+
+.stat { display: flex; flex-direction: column; gap: 4px; }
+
+.stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.stat-lbl {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── TICKER ── */
+.ticker {
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+  padding: 11px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.ticker-inner {
+  display: flex;
+  width: max-content;
+  animation: scroll 35s linear infinite;
+  gap: 56px;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 4px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.sep { color: rgba(255,255,255,0.4); margin: 0 4px; }
+
+/* ── SECTION SHARED ── */
+section { padding: 90px 60px; width: 100%; }
+
+.sec-label {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sec-label::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.sec-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 7vw, 88px);
+  line-height: 1;
+  margin-bottom: 56px;
+}
+
+/* ── SERVICES ── */
+#services { background: var(--surface); }
+
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.svc-card {
+  background: var(--panel);
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.svc-card:hover { background: #161728; }
+
+.svc-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.4s;
+}
+
+.svc-card:hover::after { width: 100%; }
+
+.svc-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.svc-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+
+.svc-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.svc-desc { font-size: 12px; line-height: 1.8; color: var(--silver); }
+
+.svc-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--accent);
+  margin-top: 24px;
+}
+
+/* ── PACKAGES ── */
+#packages { background: var(--bg); }
+
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.pkg {
+  border: 1px solid var(--border);
+  padding: 44px 36px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: var(--surface);
+}
+
+.pkg:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 80px rgba(255,69,0,0.08);
+}
+
+.pkg.featured {
+  border-color: var(--accent);
+  background: linear-gradient(160deg, #1a0f0a 0%, var(--surface) 100%);
+}
+
+.pkg-badge {
+  position: absolute;
+  top: -1px; right: 28px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+}
+
+.pkg-tier {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.pkg-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.pkg-price {
+  font-size: 26px;
+  color: var(--accent2);
+  margin: 12px 0 28px;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.pkg-price small { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); }
+
+.pkg-specs { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 36px; }
+
+.pkg-specs li {
+  font-size: 12px;
+  color: var(--silver);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.pkg-specs li::before {
+  content: '→';
+  color: var(--accent);
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── PROCESS ── */
+#process { background: var(--surface); }
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0;
+}
+
+.step {
+  padding: 36px 28px;
+  border: 1px solid var(--border);
+  border-right: none;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.step:last-child { border-right: 1px solid var(--border); }
+.step:hover { background: var(--panel); }
+
+.step-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  line-height: 1;
+  color: var(--border);
+  transition: color 0.3s;
+  margin-bottom: 16px;
+}
+
+.step:hover .step-n { color: var(--accent); }
+
+.step-t {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.step-d { font-size: 11px; color: var(--silver); line-height: 1.7; }
+
+/* ── WHY US ── */
+#why { background: var(--bg); }
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+}
+
+.why-card {
+  border: 1px solid var(--border);
+  padding: 32px 28px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.why-card:hover { border-color: var(--accent); }
+
+.why-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+
+.why-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.why-desc { font-size: 12px; color: var(--silver); line-height: 1.7; }
+
+/* ── CONTACT ── */
+#contact { background: var(--surface); }
+
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.contact-info-desc {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--silver);
+  margin-bottom: 40px;
+}
+
+.cinfo-list { display: flex; flex-direction: column; gap: 18px; margin-bottom: 40px; }
+
+.cinfo-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.cinfo-icon {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.fgroup { margin-bottom: 20px; }
+
+.fgroup label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.fgroup input,
+.fgroup select,
+.fgroup textarea {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+
+.fgroup input:focus,
+.fgroup select:focus,
+.fgroup textarea:focus { border-color: var(--accent); }
+
+.fgroup select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234fc3f7' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+
+.fgroup select option { background: var(--panel); }
+.fgroup textarea { resize: vertical; min-height: 110px; }
+
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+#msg { display:none; margin-top:14px; font-size:12px; letter-spacing:1px; color: var(--accent2); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 40px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+}
+
+.foot-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 5px;
+}
+
+.foot-logo span { color: var(--accent); }
+
+.foot-links { display: flex; gap: 28px; }
+
+.foot-links a {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.foot-links a:hover { color: var(--accent); }
+
+footer p { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+
+/* ── ANIMATIONS ── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.65s, transform 0.65s;
+}
+
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 70px 20px 60px; }
+  section { padding: 64px 20px; }
+  footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .frow { grid-template-columns: 1fr; }
+  .hero-stats { gap: 28px; }
+  .step { border-right: 1px solid var(--border); border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="nav-logo">MERCURY<span>PC</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#packages">Builds</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="top"></div>
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Custom PC Builders — Est. 2019</p>
+    <h1>MERCURY<br><span class="outline">PC</span></h1>
+    <p class="hero-sub">Hand-crafted, performance-tuned custom computers built for gamers, creators, and professionals who demand the best.</p>
+    <div class="hero-actions">
+      <a href="#packages" class="btn btn-fill">View Builds</a>
+      <a href="#contact" class="btn btn-ghost">Get a Quote</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-val">500+</span><span class="stat-lbl">Systems Built</span></div>
+      <div class="stat"><span class="stat-val">3YR</span><span class="stat-lbl">Warranty</span></div>
+      <div class="stat"><span class="stat-val">48H</span><span class="stat-lbl">Build Time</span></div>
+      <div class="stat"><span class="stat-val">100%</span><span class="stat-lbl">Stress Tested</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="tick">
+    <span class="ticker-item">GAMING BUILDS <span class="sep">◆</span></span>
+    <span class="ticker-item">WORKSTATION RIGS <span class="sep">◆</span></span>
+    <span class="ticker-item">LIQUID COOLING <span class="sep">◆</span></span>
+    <span class="ticker-item">OVERCLOCKING <span class="sep">◆</span></span>
+    <span class="ticker-item">CABLE MANAGEMENT <span class="sep">◆</span></span>
+    <span class="ticker-item">3-YEAR WARRANTY <span class="sep">◆</span></span>
+    <span class="ticker-item">STRESS TESTED <span class="sep">◆</span></span>
+    <span class="ticker-item">FREE DELIVERY <span class="sep">◆</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">GAMING BUILDS <span class="sep">◆</span></span>
+    <span class="ticker-item">WORKSTATION RIGS <span class="sep">◆</span></span>
+    <span class="ticker-item">LIQUID COOLING <span class="sep">◆</span></span>
+    <span class="ticker-item">OVERCLOCKING <span class="sep">◆</span></span>
+    <span class="ticker-item">CABLE MANAGEMENT <span class="sep">◆</span></span>
+    <span class="ticker-item">3-YEAR WARRANTY <span class="sep">◆</span></span>
+    <span class="ticker-item">STRESS TESTED <span class="sep">◆</span></span>
+    <span class="ticker-item">FREE DELIVERY <span class="sep">◆</span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="reveal">
+  <div class="sec-label">What We Do</div>
+  <div class="sec-title">SERVICES</div>
+  <div class="svc-grid">
+    <div class="svc-card">
+      <div class="svc-num">01</div>
+      <span class="svc-icon">🖥️</span>
+      <div class="svc-name">Custom PC Builds</div>
+      <p class="svc-desc">Full custom systems from your parts list or ours. Assembled, cable-managed, tested, and shipped ready to boot.</p>
+      <div class="svc-price">From $799</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">02</div>
+      <span class="svc-icon">⚡</span>
+      <div class="svc-name">Overclocking & Tuning</div>
+      <p class="svc-desc">Push your hardware safely to its ceiling. CPU, GPU, and RAM tuning with full stability testing and benchmarks.</p>
+      <div class="svc-price">From $80</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">03</div>
+      <span class="svc-icon">💧</span>
+      <div class="svc-name">Custom Water Cooling</div>
+      <p class="svc-desc">Full hardline or soft-tube custom loops. Maximum thermals, minimal noise, and stunning visuals.</p>
+      <div class="svc-price">From $350</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">04</div>
+      <span class="svc-icon">🔧</span>
+      <div class="svc-name">Upgrades & Repairs</div>
+      <p class="svc-desc">GPU swaps, storage upgrades, OS installs, and hardware diagnosis. We breathe new life into aging systems.</p>
+      <div class="svc-price">From $50</div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages" class="reveal">
+  <div class="sec-label">Pre-Configured Systems</div>
+  <div class="sec-title">BUILD PACKAGES</div>
+  <div class="pkg-grid">
+
+    <div class="pkg">
+      <div class="pkg-tier">Entry Tier</div>
+      <div class="pkg-name">SWIFT</div>
+      <div class="pkg-price">$799 <small>starting</small></div>
+      <ul class="pkg-specs">
+        <li>AMD Ryzen 5 9600X (Zen 5, 6-core)</li>
+        <li>16GB DDR5 6000MHz RAM</li>
+        <li>Nvidia RTX 5060 8GB / RX 9060 XT 16GB</li>
+        <li>1TB NVMe Gen4 SSD</li>
+        <li>650W 80+ Bronze PSU</li>
+        <li>Mid-Tower ATX Case</li>
+        <li>Windows 11 Home</li>
+      </ul>
+      <a href="#contact" class="btn btn-ghost" style="display:block; text-align:center;">Configure →</a>
+    </div>
+
+    <div class="pkg featured">
+      <div class="pkg-badge">Most Popular</div>
+      <div class="pkg-tier">Performance Tier</div>
+      <div class="pkg-name">APEX</div>
+      <div class="pkg-price">$1,499 <small>starting</small></div>
+      <ul class="pkg-specs">
+        <li>AMD Ryzen 7 9800X3D (Zen 5, 8-core, 3D V-Cache)</li>
+        <li>32GB DDR5 6000MHz RAM</li>
+        <li>Nvidia RTX 5060 Ti 16GB / RX 9070 XT</li>
+        <li>2TB NVMe Gen4 SSD</li>
+        <li>850W 80+ Gold PSU</li>
+        <li>360mm AIO Liquid Cooling</li>
+        <li>Custom Cable Management</li>
+        <li>Windows 11 Pro</li>
+      </ul>
+      <a href="#contact" class="btn btn-fill" style="display:block; text-align:center;">Configure →</a>
+    </div>
+
+    <div class="pkg">
+      <div class="pkg-tier">Ultimate Tier</div>
+      <div class="pkg-name">TITAN</div>
+      <div class="pkg-price">$2,999 <small>starting</small></div>
+      <ul class="pkg-specs">
+        <li>AMD Ryzen 9 9950X3D (Zen 5, 16-core, 3D V-Cache)</li>
+        <li>64GB DDR5 6400MHz RAM</li>
+        <li>Nvidia RTX 5080 16GB GDDR7</li>
+        <li>4TB NVMe Gen4 RAID Array</li>
+        <li>1000W 80+ Platinum PSU</li>
+        <li>Custom Hardline Water Loop</li>
+        <li>Full ARGB Addressable Lighting</li>
+        <li>Windows 11 Pro + Full Benchmark Report</li>
+      </ul>
+      <a href="#contact" class="btn btn-ghost" style="display:block; text-align:center;">Configure →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="reveal">
+  <div class="sec-label">How It Works</div>
+  <div class="sec-title">THE PROCESS</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">01</div>
+      <div class="step-t">Consult</div>
+      <p class="step-d">Tell us your budget, use case, and goals. We recommend the perfect components for you.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">02</div>
+      <div class="step-t">Design</div>
+      <p class="step-d">We finalize the parts list and build plan. You approve every component before we order.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">03</div>
+      <div class="step-t">Build</div>
+      <p class="step-d">Expert assembly in 48 hours. Meticulous cable management. Clean, efficient, beautiful.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">04</div>
+      <div class="step-t">Test</div>
+      <p class="step-d">72-hour stress test, full benchmark suite, and QC check before it leaves our hands.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">05</div>
+      <div class="step-t">Deliver</div>
+      <p class="step-d">Shipped securely or hand-delivered with full setup support and a 3-year warranty.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why" class="reveal">
+  <div class="sec-label">Why Mercury PC</div>
+  <div class="sec-title">OUR PROMISE</div>
+  <div class="why-grid">
+    <div class="why-card">
+      <span class="why-icon">🏆</span>
+      <div class="why-title">Premium Parts Only</div>
+      <p class="why-desc">We source from reputable brands — no grey-market components, no shortcuts. Your build lasts.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🔬</span>
+      <div class="why-title">72-Hour Stress Test</div>
+      <p class="why-desc">Every system runs a full suite of benchmarks and stability tests before shipment. Zero surprises.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">📋</span>
+      <div class="why-title">Full Transparency</div>
+      <p class="why-desc">You approve every component and every cost before we spend a cent. No hidden fees, ever.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🛡️</span>
+      <div class="why-title">3-Year Warranty</div>
+      <p class="why-desc">Comprehensive coverage on labor and parts. If something fails, we fix it — no questions asked.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">📦</span>
+      <div class="why-title">Safe Shipping</div>
+      <p class="why-desc">Custom-packed with anti-static foam and GPU braces. Your build arrives exactly as it left.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🤝</span>
+      <div class="why-title">Lifetime Support</div>
+      <p class="why-desc">Call, email, or chat whenever you need help. Our customers never feel left on their own.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="reveal">
+  <div class="sec-label">Get In Touch</div>
+  <div class="sec-title">START YOUR BUILD</div>
+  <div class="contact-wrap">
+    <div>
+      <p class="contact-info-desc">Ready for your custom PC? Fill out the form and we'll respond within 24 hours with a full quote, parts list, and timeline — no commitment needed.</p>
+      <div class="cinfo-list">
+        <div class="cinfo-item"><div class="cinfo-icon">📍</div>123 Tech Lane, Your City, ST 00000</div>
+        <div class="cinfo-item"><div class="cinfo-icon">📞</div>(555) 123-4567</div>
+        <div class="cinfo-item"><div class="cinfo-icon">✉️</div>builds@mercurypc.com</div>
+        <div class="cinfo-item"><div class="cinfo-icon">🕐</div>Mon – Sat, 9AM – 6PM</div>
+      </div>
+      <a href="tel:5551234567" class="btn btn-fill">Call Us Now</a>
+    </div>
+
+    <form onsubmit="submitForm(event)">
+      <div class="frow">
+        <div class="fgroup">
+          <label>First Name</label>
+          <input type="text" placeholder="John" required>
+        </div>
+        <div class="fgroup">
+          <label>Last Name</label>
+          <input type="text" placeholder="Doe" required>
+        </div>
+      </div>
+      <div class="fgroup">
+        <label>Email Address</label>
+        <input type="email" placeholder="john@example.com" required>
+      </div>
+      <div class="fgroup">
+        <label>Phone (optional)</label>
+        <input type="tel" placeholder="(555) 000-0000">
+      </div>
+      <div class="frow">
+        <div class="fgroup">
+          <label>Build Type</label>
+          <select>
+            <option>Gaming PC</option>
+            <option>Workstation / Creator</option>
+            <option>Streaming Setup</option>
+            <option>Budget Build</option>
+            <option>Ultimate Powerhouse</option>
+            <option>Not Sure — Help Me!</option>
+          </select>
+        </div>
+        <div class="fgroup">
+          <label>Budget Range</label>
+          <select>
+            <option>$500 – $1,000</option>
+            <option>$1,000 – $1,500</option>
+            <option>$1,500 – $2,500</option>
+            <option>$2,500 – $4,000</option>
+            <option>$4,000+</option>
+          </select>
+        </div>
+      </div>
+      <div class="fgroup">
+        <label>Tell Us More</label>
+        <textarea placeholder="Games you play, software you use, aesthetic preferences, anything helps..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-fill" style="width:100%; font-size:13px;" id="sbtn">Send Request →</button>
+      <div id="msg">✓ Received! We'll be in touch within 24 hours.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">MERCURY<span>PC</span></div>
+  <div class="foot-links">
+    <a href="#services">Services</a>
+    <a href="#packages">Builds</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p>© 2024 Mercury PC · All rights reserved</p>
+</footer>
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Form
+function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('sbtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  setTimeout(() => {
+    e.target.reset();
+    btn.textContent = 'Send Request →';
+    btn.disabled = false;
+    const m = document.getElementById('msg');
+    m.style.display = 'block';
+    setTimeout(() => m.style.display = 'none', 5000);
+  }, 1200);
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
